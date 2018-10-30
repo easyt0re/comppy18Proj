@@ -16,6 +16,22 @@ installed:
 -  ``scikit-image``: For image io and transforms
 -  ``pandas``: For easier csv parsing
 
+This is a modified version of the original code.
+
+The job for this script is still pre-processing but with a different "dataset".
+To use nice built-in functions and frameworks of PyTorch, 
+I have to modify to code to interface with the overall environment.
+The idea is to get some data that we want to learn a model out of it
+output_data = mapping(input_data), the mapping is our model, what we try to learn
+the (input_data, output_data) pair is our dataset
+and this script is to prepare for the next step, which is machine learning
+
+raw input of this script: 2 *.csv files for input_data and output_data, respectively
+output of this script:  a dict that contains a batch of data from the dataset
+                        key1: jointspace, input_data, type: tensor, shape: [batchSize, someDim, 1, 1]
+                        key2: workspace, output_data, type: tensor, shape: [batchSize, someDim, 1, 1]
+                        someDim corresponds to the length of raw data of each sample
+
 """
 
 from __future__ import print_function, division
