@@ -32,6 +32,10 @@ output of this script:  a dict that contains a batch of data from the dataset
                         key2: workspace, output_data, type: tensor, shape: [batchSize, someDim, 1, 1]
                         someDim corresponds to the length of raw data of each sample
 
+the following is trying doctest material but didn't work
+>>>1+1 
+2
+
 """
 
 from __future__ import print_function, division
@@ -136,7 +140,7 @@ plt.ion()   # interactive mode
 class ForKinDataset(Dataset):
     """Forward Kinematics dataset."""
 
-    def __init__(self, csv_JS, csv_WS, root_dir, transform=None):
+    def __init__(self, csv_JS='workdir/saveJS.csv', csv_WS='workdir/saveWS.csv', root_dir='workdir/', transform=None):
         """
         Args:
             csv_file (string): Path to the csv file with annotations.
@@ -166,25 +170,25 @@ class ForKinDataset(Dataset):
         return sample
 
 
-######################################################################
-# Let's instantiate this class and iterate through the data samples. We
-# will print the sizes of first 4 samples and show their landmarks.
-#
+# ######################################################################
+# # Let's instantiate this class and iterate through the data samples. We
+# # will print the sizes of first 4 samples and show their landmarks.
+# #
 
-fk_dataset = ForKinDataset( csv_JS='workdir/saveJS.csv',
-                            csv_WS='workdir/saveWS.csv',
-                            root_dir='workdir/')
+# fk_dataset = ForKinDataset( csv_JS='workdir/saveJS.csv',
+#                             csv_WS='workdir/saveWS.csv',
+#                             root_dir='workdir/')
 
-# fig = plt.figure()
+# # fig = plt.figure()
 
-for i in range(len(fk_dataset)):
-    sample = fk_dataset[i]
+# for i in range(len(fk_dataset)):
+#     sample = fk_dataset[i]
 
-    print(i, sample['jointspace'].shape, sample['workspace'].shape)
-    # print(type(sample['jointspace']))
+#     print(i, sample['jointspace'].shape, sample['workspace'].shape)
+#     # print(type(sample['jointspace']))
 
-    if i == 3:
-        break
+#     if i == 3:
+#         break
 
 
 # ######################################################################
@@ -287,25 +291,25 @@ for i in range(len(fk_dataset)):
 # TODO: the two above need to go and maybe turn one into augmentation with noise
 # TODO: maybe do a normalization like stated in the last part of comment
 
-class ToTensor(object):
-    """Convert ndarrays in sample to Tensors."""
+# class ToTensor(object):
+#     """Convert ndarrays in sample to Tensors."""
 
-    def __call__(self, sample):
-        jointangles, endeffposes = sample['jointspace'], sample['workspace']
+#     def __call__(self, sample):
+#         jointangles, endeffposes = sample['jointspace'], sample['workspace']
 
-        # swap color axis because
-        # numpy image: H x W x C
-        # torch image: C X H X W
-        # jointangles = jointangles.transpose((2, 0, 1))
-        # endeffposes = endeffposes.transpose((2, 0, 1))
-        tensor_jointangles = torch.from_numpy(jointangles)
-        tensor_endeffposes = torch.from_numpy(endeffposes)
-        tensor_jointangles = torch.unsqueeze(tensor_jointangles,0)
-        tensor_endeffposes = torch.unsqueeze(tensor_endeffposes,0)
-        tensor_jointangles = torch.unsqueeze(tensor_jointangles,2)
-        tensor_endeffposes = torch.unsqueeze(tensor_endeffposes,2)
-        return {'jointspace': tensor_jointangles,
-                'workspace': tensor_endeffposes}
+#         # swap color axis because
+#         # numpy image: H x W x C
+#         # torch image: C X H X W
+#         # jointangles = jointangles.transpose((2, 0, 1))
+#         # endeffposes = endeffposes.transpose((2, 0, 1))
+#         tensor_jointangles = torch.from_numpy(jointangles)
+#         tensor_endeffposes = torch.from_numpy(endeffposes)
+#         tensor_jointangles = torch.unsqueeze(tensor_jointangles,0)
+#         tensor_endeffposes = torch.unsqueeze(tensor_endeffposes,0)
+#         tensor_jointangles = torch.unsqueeze(tensor_jointangles,2)
+#         tensor_endeffposes = torch.unsqueeze(tensor_endeffposes,2)
+#         return {'jointspace': tensor_jointangles,
+#                 'workspace': tensor_endeffposes}
 
 
 # ######################################################################
@@ -357,67 +361,72 @@ class ToTensor(object):
 # # loop as before.
 # #
 
-transformed_dataset = ForKinDataset(csv_JS='workdir/saveJS.csv',
-                                    csv_WS='workdir/saveWS.csv',
-                                    root_dir='workdir/',
-                                    transform=transforms.Compose([
-                                               ToTensor()
-                                    ]))
+# transformed_dataset = ForKinDataset(csv_JS='workdir/saveJS.csv',
+#                                     csv_WS='workdir/saveWS.csv',
+#                                     root_dir='workdir/',
+#                                     transform=transforms.Compose([
+#                                                ToTensor()
+#                                     ]))
 
-for i in range(len(transformed_dataset)):
-    sample = transformed_dataset[i]
+# for i in range(len(transformed_dataset)):
+#     sample = transformed_dataset[i]
 
-    print(i, sample['jointspace'].size(), sample['workspace'].size())
+#     print(i, sample['jointspace'].size(), sample['workspace'].size())
 
-    if i == 3:
-        break
-
-
-######################################################################
-# However, we are losing a lot of features by using a simple ``for`` loop to
-# iterate over the data. In particular, we are missing out on:
-#
-# -  Batching the data
-# -  Shuffling the data
-# -  Load the data in parallel using ``multiprocessing`` workers.
-#
-# ``torch.utils.data.DataLoader`` is an iterator which provides all these
-# features. Parameters used below should be clear. One parameter of
-# interest is ``collate_fn``. You can specify how exactly the samples need
-# to be batched using ``collate_fn``. However, default collate should work
-# fine for most use cases.
-#
-
-dataloader = DataLoader(transformed_dataset, batch_size=4,
-                        shuffle=True, num_workers=4)
+#     if i == 3:
+#         break
 
 
-# # Helper function to show a batch
-# def show_landmarks_batch(sample_batched):
-#     """Show image with landmarks for a batch of samples."""
-#     images_batch, landmarks_batch = \
-#             sample_batched['image'], sample_batched['landmarks']
-#     batch_size = len(images_batch)
-#     im_size = images_batch.size(2)
+# ######################################################################
+# # However, we are losing a lot of features by using a simple ``for`` loop to
+# # iterate over the data. In particular, we are missing out on:
+# #
+# # -  Batching the data
+# # -  Shuffling the data
+# # -  Load the data in parallel using ``multiprocessing`` workers.
+# #
+# # ``torch.utils.data.DataLoader`` is an iterator which provides all these
+# # features. Parameters used below should be clear. One parameter of
+# # interest is ``collate_fn``. You can specify how exactly the samples need
+# # to be batched using ``collate_fn``. However, default collate should work
+# # fine for most use cases.
+# #
 
-#     grid = utils.make_grid(images_batch)
-#     plt.imshow(grid.numpy().transpose((1, 2, 0)))
+# dataloader = DataLoader(transformed_dataset, batch_size=4,
+#                         shuffle=True, num_workers=4)
 
-#     for i in range(batch_size):
-#         plt.scatter(landmarks_batch[i, :, 0].numpy() + i * im_size,
-#                     landmarks_batch[i, :, 1].numpy(),
-#                     s=10, marker='.', c='r')
 
-#         plt.title('Batch from dataloader')
+# # # Helper function to show a batch
+# # def show_landmarks_batch(sample_batched):
+# #     """Show image with landmarks for a batch of samples."""
+# #     images_batch, landmarks_batch = \
+# #             sample_batched['image'], sample_batched['landmarks']
+# #     batch_size = len(images_batch)
+# #     im_size = images_batch.size(2)
 
-for i_batch, sample_batched in enumerate(dataloader):
-    print(i_batch, sample_batched['jointspace'].size(),
-          sample_batched['workspace'].size())
+# #     grid = utils.make_grid(images_batch)
+# #     plt.imshow(grid.numpy().transpose((1, 2, 0)))
 
-    # observe 4th batch and stop.
-    if i_batch == 3:
-        break
+# #     for i in range(batch_size):
+# #         plt.scatter(landmarks_batch[i, :, 0].numpy() + i * im_size,
+# #                     landmarks_batch[i, :, 1].numpy(),
+# #                     s=10, marker='.', c='r')
 
+# #         plt.title('Batch from dataloader')
+
+# for i_batch, sample_batched in enumerate(dataloader):
+#     print(i_batch, sample_batched['jointspace'].size(),
+#           sample_batched['workspace'].size())
+
+#     # observe 4th batch and stop.
+#     if i_batch == 3:
+#         break
+
+
+# if __name__ == "__main__": 
+#     import doctest
+#     doctest.testmod()
+    
 # ######################################################################
 # # Afterword: torchvision
 # # ----------------------
