@@ -6,11 +6,13 @@ language: python
 python:
   - "3.6"
 before_install: 
+  - conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
+  - conda install -c mingfeima mkldnn
+  - pip install pandas
   - git clone --recursive https://github.com/pytorch/pytorch
   - cd pytorch
   - python setup.py install
   # - docker build -t pytorch -f docker/pytorch/Dockerfile .
-  - pip install pandas numpy
 script:
   - pytest -v --cov myDataPreProcess
   - coveralls
