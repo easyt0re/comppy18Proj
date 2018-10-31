@@ -1,8 +1,13 @@
+sudo: required
 language: python
-cache: pip
+service: 
+  - docker
+# cache: pip
 python:
   - "3.6"
-before_install: pip install pandas numpy
+before_install: 
+  - docker build -t pytorch -f docker/pytorch/Dockerfile .
+  - pip install pandas numpy
 script:
   - pytest -v --cov myDataPreProcess
   - coveralls
