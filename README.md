@@ -2,6 +2,7 @@
 A Pre-processing Script for PyTorch ML Problem
 
 [![Coverage Status](https://coveralls.io/repos/github/easyt0re/comppy18Proj/badge.svg?branch=master)](https://coveralls.io/github/easyt0re/comppy18Proj?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/comppy18proj/badge/?version=latest)](https://comppy18proj.readthedocs.io/en/latest/?badge=latest)
 
 ## Intro
 The idea is to touch and try out things learned in the course: [Computational Python BB3110](https://comppy-info.readthedocs.io/en/latest/index.html)
