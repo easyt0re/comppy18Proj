@@ -28,3 +28,6 @@ def test_trans_size(sample_idx):
 	assert test_sample['jointspace'].size()[1] == 18
 	assert test_sample['workspace'].size()[1] == 15
 
+def test_read_all():
+	assert len(tran_dataset) == 64
+	assert len(test_dataset) == 64
