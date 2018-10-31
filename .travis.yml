@@ -1,12 +1,15 @@
-sudo: required
+# sudo: required
 language: python
-service: 
-  - docker
+# service: 
+#   - docker
 # cache: pip
 python:
   - "3.6"
 before_install: 
-  - docker build -t pytorch -f docker/pytorch/Dockerfile .
+  - git clone --recursive https://github.com/pytorch/pytorch
+  - cd pytorch
+  - python setup.py install
+  # - docker build -t pytorch -f docker/pytorch/Dockerfile .
   - pip install pandas numpy
 script:
   - pytest -v --cov myDataPreProcess
