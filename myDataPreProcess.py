@@ -40,6 +40,7 @@ the following is trying doctest material but didn't work
 
 from __future__ import print_function, division
 import os
+import sys
 import torch
 import pandas as pd
 # from skimage import io, transform
@@ -153,6 +154,13 @@ class ForKinDataset(Dataset):
 
     def __len__(self):
         # TODO: maybe do a try except here to make sure 2 lengths are equal
+        try:
+            input_len = len(self.jointangles_frame)
+            output_len = len(self.endeffposes_frame)
+            assert input_len == output_len
+        except AssertionError:
+            print(f"Length not equal: len(input) == {input_len} but len(output) == {output_len}")
+            sys.exit(1)
         return len(self.jointangles_frame)
 
     def __getitem__(self, idx):
