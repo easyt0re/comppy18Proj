@@ -1,18 +1,20 @@
-sudo: required
+# sudo: required
 language: python
-service: 
-  - docker
+# service: 
+#   - docker
 # cache: pip
 python:
   - "3.6"
 before_install: 
   # - conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
   # - conda install -c mingfeima mkldnn
+  - pip3 install http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl
+  - pip3 install torchvision
   - pip install pandas numpy
-  - git clone --recursive https://github.com/pytorch/pytorch
+  # - git clone --recursive https://github.com/pytorch/pytorch
   # - cd pytorch
   # - python setup.py install
-  - docker build -t pytorch -f pytorch/docker/pytorch/Dockerfile .
+  # - docker build -t pytorch -f pytorch/docker/pytorch/Dockerfile .
 script:
   - pytest -v --cov myDataPreProcess
   - coveralls
