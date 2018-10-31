@@ -1,6 +1,3 @@
-torch
-pandas
-numpy
 pytest
 pytest-cov
 coveralls
