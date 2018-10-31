@@ -1,13 +1,8 @@
-# language: python
-# python:
-#   - "3.6"
-# before_install: pip install torch pandas numpy
-# script:
-#   - pytest -v --cov myDataPreProcess
-#   - coveralls
-
 language: python
 cache: pip
 python:
   - "3.6"
-script: pytest
+before_install: pip install pandas numpy torch
+script:
+  - pytest -v --cov myDataPreProcess
+  - coveralls
