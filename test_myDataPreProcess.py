@@ -2,8 +2,11 @@ import pytest
 import pandas as pd
 import myDataPreProcess
 
+from torchvision import transforms
+
 # init dataset
 test_dataset = myDataPreProcess.ForKinDataset()
+tran_dataset = myDataPreProcess.ForKinDataset(transform=transforms.Compose([myDataPreProcess.ToTensor()]))
 #init ground truth
 jointangles_frame = pd.read_csv('workdir/saveJS.csv')
 endeffposes_frame = pd.read_csv('workdir/saveWS.csv')
@@ -19,3 +22,9 @@ def test_item(sample_idx):
 	test_js, test_ws = test_sample['jointspace'], test_sample['workspace']
 	assert test_js[0] == true_sample_js[0]
 	assert test_ws[0] == true_sample_ws[0]
+
+def test_trans_size(sample_idx):
+	test_sample = tran_dataset[sample_idx]
+	assert test_sample['jointspace'].size()[1] == 18
+	assert test_sample['workspace'].size()[1] == 15
+

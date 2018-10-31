@@ -291,25 +291,25 @@ class ForKinDataset(Dataset):
 # TODO: the two above need to go and maybe turn one into augmentation with noise
 # TODO: maybe do a normalization like stated in the last part of comment
 
-# class ToTensor(object):
-#     """Convert ndarrays in sample to Tensors."""
+class ToTensor(object):
+    """Convert ndarrays in sample to Tensors."""
 
-#     def __call__(self, sample):
-#         jointangles, endeffposes = sample['jointspace'], sample['workspace']
+    def __call__(self, sample):
+        jointangles, endeffposes = sample['jointspace'], sample['workspace']
 
-#         # swap color axis because
-#         # numpy image: H x W x C
-#         # torch image: C X H X W
-#         # jointangles = jointangles.transpose((2, 0, 1))
-#         # endeffposes = endeffposes.transpose((2, 0, 1))
-#         tensor_jointangles = torch.from_numpy(jointangles)
-#         tensor_endeffposes = torch.from_numpy(endeffposes)
-#         tensor_jointangles = torch.unsqueeze(tensor_jointangles,0)
-#         tensor_endeffposes = torch.unsqueeze(tensor_endeffposes,0)
-#         tensor_jointangles = torch.unsqueeze(tensor_jointangles,2)
-#         tensor_endeffposes = torch.unsqueeze(tensor_endeffposes,2)
-#         return {'jointspace': tensor_jointangles,
-#                 'workspace': tensor_endeffposes}
+        # swap color axis because
+        # numpy image: H x W x C
+        # torch image: C X H X W
+        # jointangles = jointangles.transpose((2, 0, 1))
+        # endeffposes = endeffposes.transpose((2, 0, 1))
+        tensor_jointangles = torch.from_numpy(jointangles)
+        tensor_endeffposes = torch.from_numpy(endeffposes)
+        tensor_jointangles = torch.unsqueeze(tensor_jointangles,0)
+        tensor_endeffposes = torch.unsqueeze(tensor_endeffposes,0)
+        tensor_jointangles = torch.unsqueeze(tensor_jointangles,2)
+        tensor_endeffposes = torch.unsqueeze(tensor_endeffposes,2)
+        return {'jointspace': tensor_jointangles,
+                'workspace': tensor_endeffposes}
 
 
 # ######################################################################
