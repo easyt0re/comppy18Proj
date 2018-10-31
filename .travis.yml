@@ -12,7 +12,7 @@ before_install:
   - git clone --recursive https://github.com/pytorch/pytorch
   # - cd pytorch
   # - python setup.py install
-  - docker build -t pytorch -f docker/pytorch/Dockerfile .
+  - docker build -t pytorch -f pytorch/docker/pytorch/Dockerfile .
 script:
   - pytest -v --cov myDataPreProcess
   - coveralls
