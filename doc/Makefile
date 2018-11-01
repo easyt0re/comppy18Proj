@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SPHINXPROJ    = Comppy18ProjectbyYW
+SPHINXPROJ    = CompPy18ProjectByYW
 SOURCEDIR     = source
 BUILDDIR      = build
 

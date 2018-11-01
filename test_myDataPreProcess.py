@@ -5,11 +5,16 @@ import myDataPreProcess
 from torchvision import transforms
 
 # init dataset
-test_dataset = myDataPreProcess.ForKinDataset()
-tran_dataset = myDataPreProcess.ForKinDataset(transform=transforms.Compose([myDataPreProcess.ToTensor()]))
+test_dataset = myDataPreProcess.ForKinDataset(	csv_JS="workdir/saveJS.csv",
+												csv_WS="workdir/saveWS.csv",
+												root_dir="workdir/")
+tran_dataset = myDataPreProcess.ForKinDataset(	csv_JS="workdir/saveJS.csv",
+												csv_WS="workdir/saveWS.csv",
+												root_dir="workdir/",
+												transform=transforms.Compose([myDataPreProcess.ToTensor()]))
 #init ground truth
-jointangles_frame = pd.read_csv('workdir/saveJS.csv')
-endeffposes_frame = pd.read_csv('workdir/saveWS.csv')
+jointangles_frame = pd.read_csv("workdir/saveJS.csv")
+endeffposes_frame = pd.read_csv("workdir/saveWS.csv")
 
 @pytest.fixture(params=[1, 5, 7])
 def sample_idx(request):
