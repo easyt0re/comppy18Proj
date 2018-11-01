@@ -135,26 +135,34 @@ warnings.filterwarnings("ignore")
 # -  ``__getitem__`` to support the indexing such that ``dataset[i]`` can
 #    be used to get :math:`i`\ th sample
 #
-# Let's create a dataset class for our face landmarks dataset. We will
-# read the csv in ``__init__`` but leave the reading of images to
-# ``__getitem__``. This is memory efficient because all the images are not
-# stored in the memory at once but read as required.
+# Let's create a dataset class for our Forward Kinematic dataset. We will
+# read the whole csv in ``__init__`` and get one sample in
+# ``__getitem__``. This could be memory efficient for other cases
+# but not very obvious in our case.
 #
 # Sample of our dataset will be a dict
-# ``{'image': image, 'landmarks': landmarks}``. Our datset will take an
+# ``{'jointspace': jointangles, 'workspace': endeffposes}``. Our datset will take an
 # optional argument ``transform`` so that any required processing can be
 # applied on the sample. We will see the usefulness of ``transform`` in the
 # next section.
 #
 
 class ForKinDataset(Dataset):
-    """Forward Kinematics dataset."""
+    """
+
+    Forward Kinematics dataset.
+
+    One Dataset should contain multiple samples 
+    and each sample should have the corresponding I and O.
+
+    """
 
     def __init__(self, csv_JS, csv_WS, root_dir, transform=None):
         """
         Args:
-            csv_file (string): Path to the csv file with annotations.
-            root_dir (string): Directory with all the images.
+            csv_JS (string): Path to the csv file with input.
+            csv_WS (string): Path to the csv file with output/labels/annotations.
+            root_dir (string): Directory with all the raw csv files.
             transform (callable, optional): Optional transform to be applied
                 on a sample.
         """
@@ -164,7 +172,18 @@ class ForKinDataset(Dataset):
         self.transform = transform
 
     def __len__(self):
-        # TODO: maybe do a try except here to make sure 2 lengths are equal
+        """
+
+        return nSamples in the Dataset
+
+        use try/except to make sure I and O have the same number of entries
+
+        ########################################################################
+        # .. note::
+        #
+        #     due to ``print(f"strings")``, python version >=3.6
+
+        """
         try:
             input_len = len(self.jointangles_frame)
             output_len = len(self.endeffposes_frame)
@@ -176,6 +195,11 @@ class ForKinDataset(Dataset):
         return len(self.jointangles_frame)
 
     def __getitem__(self, idx):
+        """
+        Args:
+            idx (int): index for a specific sample which ideally could be the "name" of the sample
+
+        """
         jointangles = self.jointangles_frame.iloc[idx, :].values
         # jointangles = jointangles.astype('float').reshape(-1, 2)
         # i dont think this recast and reshape is relevant with my case
@@ -209,34 +233,34 @@ class ForKinDataset(Dataset):
 #         break
 
 
-# ######################################################################
-# # Transforms
-# # ----------
-# #
-# # One issue we can see from the above is that the samples are not of the
-# # same size. Most neural networks expect the images of a fixed size.
-# # Therefore, we will need to write some prepocessing code.
-# # Let's create three transforms:
-# #
-# # -  ``Rescale``: to scale the image
-# # -  ``RandomCrop``: to crop from image randomly. This is data
-# #    augmentation.
-# # -  ``ToTensor``: to convert the numpy images to torch images (we need to
-# #    swap axes).
-# #
-# # We will write them as callable classes instead of simple functions so
-# # that parameters of the transform need not be passed everytime it's
-# # called. For this, we just need to implement ``__call__`` method and
-# # if required, ``__init__`` method. We can then use a transform like this:
-# #
-# # ::
-# #
-# #     tsfm = Transform(params)
-# #     transformed_sample = tsfm(sample)
-# #
-# # Observe below how these transforms had to be applied both on the image and
-# # landmarks.
-# #
+######################################################################
+# Transforms
+# ----------
+#
+# One issue we can see from the above is that the samples are not of the
+# same size. Most neural networks expect the images of a fixed size.
+# Therefore, we will need to write some prepocessing code.
+# Let's create three transforms:
+#
+# -  ``Rescale``: to scale the image
+# -  ``RandomCrop``: to crop from image randomly. This is data
+#    augmentation.
+# -  ``ToTensor``: to convert the numpy images to torch images (we need to
+#    swap axes).
+#
+# We will write them as callable classes instead of simple functions so
+# that parameters of the transform need not be passed everytime it's
+# called. For this, we just need to implement ``__call__`` method and
+# if required, ``__init__`` method. We can then use a transform like this:
+#
+# ::
+#
+#     tsfm = Transform(params)
+#     transformed_sample = tsfm(sample)
+#
+# Observe below how these transforms had to be applied both on the image and
+# landmarks.
+#
 
 # class Rescale(object):
 #     """Rescale the image in a sample to a given size.
