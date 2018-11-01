@@ -161,6 +161,8 @@ texinfo_documents = [
 
 
 # -- Extension configuration -------------------------------------------------
+# added by YW to bypass importError
+autodoc_mock_imports = ['torch']
 
 # -- Options for todo extension ----------------------------------------------
 

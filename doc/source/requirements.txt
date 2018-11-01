@@ -1,6 +1,0 @@
-numpy
-pandas
-torch
-pytest
-pytest-cov
-coveralls
