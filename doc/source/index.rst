@@ -13,7 +13,7 @@ Generated Document for Pre-processing Script
 ====================
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 7
    :caption: Contents:
 
    modules
@@ -26,6 +26,7 @@ The syntax is a bit different and new.
 Indentation seems to be very important for this.
 
 code block here ::
+
 	print("hello world")
 	>> hello world
 

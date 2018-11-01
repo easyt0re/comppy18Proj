@@ -5,6 +5,7 @@ Data Loading and Processing Tutorial
 **Author**: `Sasank Chilamkurthy <https://chsasank.github.io>`_
 
 This is the original author of the original tutorial.
+
 **New Author**: `Yang Wang`_
 
 A lot of effort in solving any machine learning problem goes in to
