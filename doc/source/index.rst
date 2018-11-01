@@ -5,16 +5,29 @@
 
 Welcome to CompPy18ProjectByYW's documentation!
 ===============================================
+This is an attempt to have some documentations for the project.
 
-Another Header
+This is a student project for BB3110 Computational Python. 
+
+Generated Document for Pre-processing Script
 ====================
 
-Content
+.. toctree::
+   :maxdepth: 4
+   :caption: Contents:
+
+   modules
+
+Other Things Learned from Generating This
 ^^^^^^^^^^^^^^^^^^^^
 
-.. toctree::
-   :maxdepth: 2
-   modules
+The syntax is a bit different and new.
+
+Indentation seems to be very important for this.
+
+code block here ::
+	print("hello world")
+	>> hello world
 
 
 

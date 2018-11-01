@@ -4,6 +4,9 @@ Data Loading and Processing Tutorial
 ====================================
 **Author**: `Sasank Chilamkurthy <https://chsasank.github.io>`_
 
+This is the original author of the original tutorial.
+**New Author**: `Yang Wang`_
+
 A lot of effort in solving any machine learning problem goes in to
 preparing the data. PyTorch provides many tools to make data loading
 easy and hopefully, to make your code more readable. In this tutorial,
@@ -21,19 +24,22 @@ This is a modified version of the original code.
 The job for this script is still pre-processing but with a different "dataset".
 To use nice built-in functions and frameworks of PyTorch, 
 I have to modify to code to interface with the overall environment.
-The idea is to get some data that we want to learn a model out of it
-output_data = mapping(input_data), the mapping is our model, what we try to learn
-the (input_data, output_data) pair is our dataset
-and this script is to prepare for the next step, which is machine learning
+The idea is to get some data that we want to learn a model out of it.
+output_data = mapping(input_data), the mapping is our model, what we try to learn.
+The (input_data, output_data) pair is our dataset.
+And this script is to prepare for the next step, which is machine learning.
 
 raw input of this script: 2 csv files for input_data and output_data, respectively
 
-output of this script:  a dict that contains a batch of data from the dataset
-                        key1: jointspace, input_data, type: tensor, shape: [batchSize, someDim, 1, 1]
+output of this script:  
 
-                        key2: workspace, output_data, type: tensor, shape: [batchSize, someDim, 1, 1]
+a dict that contains a batch of data from the dataset
 
-                        someDim corresponds to the length of raw data of each sample
+key1: jointspace, input_data, type: tensor, shape: [batchSize, someDim, 1, 1]
+
+key2: workspace, output_data, type: tensor, shape: [batchSize, someDim, 1, 1]
+
+someDim corresponds to the length of raw data of each sample
 
 the following is trying doctest material but didn't work
 
@@ -90,7 +96,7 @@ warnings.filterwarnings("ignore")
 
 # n = 65
 # img_name = landmarks_frame.iloc[n, 0]
-# landmarks = landmarks_frame.iloc[n, 1:].as_matrix()
+# landmarks = landmarks_frame.iloc[n, 1:].values
 # landmarks = landmarks.astype('float').reshape(-1, 2)
 
 # print('Image name: {}'.format(img_name))
@@ -164,14 +170,15 @@ class ForKinDataset(Dataset):
             assert input_len == output_len
         except AssertionError:
             print(f"Length not equal: len(input) == {input_len} but len(output) == {output_len}")
-            sys.exit(1)
+            # sys.exit(1)
+            return 0
         return len(self.jointangles_frame)
 
     def __getitem__(self, idx):
-        jointangles = self.jointangles_frame.iloc[idx, :].as_matrix()
+        jointangles = self.jointangles_frame.iloc[idx, :].values
         # jointangles = jointangles.astype('float').reshape(-1, 2)
         # i dont think this recast and reshape is relevant with my case
-        endeffposes = self.endeffposes_frame.iloc[idx, :].as_matrix()
+        endeffposes = self.endeffposes_frame.iloc[idx, :].values
         sample = {'jointspace': jointangles, 'workspace': endeffposes}
 
         if self.transform:
