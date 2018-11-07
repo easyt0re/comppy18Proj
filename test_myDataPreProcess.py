@@ -39,15 +39,17 @@ endeffposes_frame = pd.read_csv("workdir/saveWS.csv")
 # import pdb
 # pdb.set_trace()
 
+"""
+use fixture to run more tests 
+
+if needed, change the index, or make it to be the full set
+
+there might be some strange syntax limitation with fixture
+
+this comment cannot be in between the next 3 lines of code
+"""
 @pytest.fixture(params=[1, 5, 7])
 def sample_idx(request):
-	"""
-	use fixture to run more tests 
-
-	if needed, change the index, or make it to be the full set
-
-	"""
-
     return request.param
 
 def test_item(sample_idx):
