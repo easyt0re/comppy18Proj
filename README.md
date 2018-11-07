@@ -76,17 +76,67 @@ Then this could check the number of samples that has been read in.
 However, if that is the case, then correspondency would be a more important thing to check.
 
 ### Other Time-Consuming Things
+#### Testing
 It is really hard to get the test running.
 Potential problems could be: dependency problem, import problem, too much stuff happening in the module, how to install certain packages, and so on.
 From my `git` history, it is clear that I struggled with Travis-CI.
 It actually has 2 different homepages which serve different purposes.
 And since I do not know a local or an interactive way to test, every test is done after a `$ git push`.
+I would definitely do `pytest` locally but those hiccups related to Travis-CI would show up in this way.
+So what actually happened was my test was already running 
+but I still spent a large amount of time making it work on Travis-CI.
 Apart from `pytest`, I also tried `doctest`.
 It had some errors that I did not understand.
 I gave it up quite quickly because I would have `pytest` anyway.
 
+#### Documentation
+To be honest, I didn't expect documentation generation to be this time consuming.
+I thought, behind the curtains, it is just parsing strings with some clever regular expressions.
+But it is not.
+ReadtheDocs also would like to "run" your code, or at least pass the importing step.
+This basically means I have to do everything I did for Travis-CI again with ReadtheDocs.
+Compared to Travis-CI, it gives you less control over what it does.
+Moreover, it has more restrictions.
+It seems that it only support Python 2.7 or 3.5.
+And due to the fact that this is the place to host documentations,
+it can be hard to search for documentation on itself.
+Because some of the keywords won't get you closer to what you want.
+It took me quite a while to realize what `mock` is and how to use it.
+
 ## Results
+From the test, we know that with this simple setup, everything seems to be working properly.
+After the data can be correctly read in,
+it should also be OK to be read in as batches and iterated through them.
+These were tested but commented out in the final version
+because of some limitations in Travis-CI.
 
 ## Conclusion, Discussion, and Future Work
+The conclusion is that the pre-processing is working.
+
+However, I would like to use this section to discuss stuff beyond this project.
+First of all, it is not guaranteed that this notion of solving Forward Kinematics with ML is correct or feasible.
+But as mentioned previously, this serves as a nice project for the course.
+Secondly, if we were to keep working on this, 
+the next step would be developing the structure for the ANN.
+This would be critical to the success of this method 
+given the assumption it is doable theoretically.
+And the rest of the tuning process for an ANN follows,
+such as random initialization, grid search, and so on.
+Given our dataset is quite simple,
+maybe it is possible to run on a common PC.
+But this is also something we should consider.
+Would our dataset be sufficient for the ANN to learn this?
+As we know, learning methods rely a lot on data.
+Finally, if we really achieve a rather good mapping from the ANN,
+how could we make use of it?
+As stated, the data is actually from the simulation not the real machine.
+And actually, it might not be practical to get huge amount of data from the real machine.
+So we have to find a way to "project" this mapping onto the real machine to really make use of this work.
+
+So far, that is some of my visions for the project.
+And the immediate future work would be to code and finish the whole training process.
 
 ## Acknowledgment
+The code is based PyTorch Official Beginner Tutorials and specifically [data loading and processing tutorial](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html).
+
+Thanks to the course for the opportunity to implement this. 
