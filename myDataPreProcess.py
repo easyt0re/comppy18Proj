@@ -6,7 +6,7 @@ Data Loading and Processing Tutorial
 
 This is the original author of the original tutorial.
 
-**New Author**: `Yang Wang`_
+**New Author**: Yang Wang
 
 A lot of effort in solving any machine learning problem goes in to
 preparing the data. PyTorch provides many tools to make data loading
@@ -237,14 +237,10 @@ class ForKinDataset(Dataset):
 # Transforms
 # ----------
 #
-# One issue we can see from the above is that the samples are not of the
-# same size. Most neural networks expect the images of a fixed size.
-# Therefore, we will need to write some prepocessing code.
-# Let's create three transforms:
+# Our samples are of the same size, which is good, 
+# so that we don't need rescaling or cropping.
+# But still, we will need at least one to turn ndarray to tensor.
 #
-# -  ``Rescale``: to scale the image
-# -  ``RandomCrop``: to crop from image randomly. This is data
-#    augmentation.
 # -  ``ToTensor``: to convert the numpy images to torch images (we need to
 #    swap axes).
 #
@@ -258,8 +254,11 @@ class ForKinDataset(Dataset):
 #     tsfm = Transform(params)
 #     transformed_sample = tsfm(sample)
 #
-# Observe below how these transforms had to be applied both on the image and
-# landmarks.
+# Of course, we could later add other transforms to augment the dataset,
+# such as adding noise to the original samples.
+# Whether or not that's a good idea for training is another problem to ask.
+#
+# Observe below how these transforms had to be applied both on the I and O.
 #
 
 # class Rescale(object):
@@ -334,7 +333,21 @@ class ForKinDataset(Dataset):
 # TODO: maybe do a normalization like stated in the last part of comment
 
 class ToTensor(object):
-    """Convert ndarrays in sample to Tensors."""
+    """
+    Convert ndarrays in sample to Tensors.
+
+    Again, this makes more sense if this is an image dataset
+    for you have to swap color axis because of different conventions. ::
+
+        numpy image: H x W x C
+        torch image: C X H X W
+
+    But for our dataset, it's more about having all the dimensions needed
+    for the framework to work properly.
+
+    ``torch.unsqueeze()`` is used to do that.
+
+    """
 
     def __call__(self, sample):
         jointangles, endeffposes = sample['jointspace'], sample['workspace']
@@ -354,18 +367,17 @@ class ToTensor(object):
                 'workspace': tensor_endeffposes}
 
 
-# ######################################################################
-# # Compose transforms
-# # ~~~~~~~~~~~~~~~~~~
-# #
-# # Now, we apply the transforms on an sample.
-# #
-# # Let's say we want to rescale the shorter side of the image to 256 and
-# # then randomly crop a square of size 224 from it. i.e, we want to compose
-# # ``Rescale`` and ``RandomCrop`` transforms.
-# # ``torchvision.transforms.Compose`` is a simple callable class which allows us
-# # to do this.
-# #
+######################################################################
+# Compose transforms
+# ~~~~~~~~~~~~~~~~~~
+#
+# Now, we apply the transforms on an sample.
+#
+# although we don't have multiple transforms at the moment,
+# they are actually composable.
+# ``torchvision.transforms.Compose`` is a simple callable class which allows us
+# to do this.
+#
 
 # scale = Rescale(256)
 # crop = RandomCrop(128)
