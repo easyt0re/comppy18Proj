@@ -109,6 +109,9 @@ class ForKinDataset(Dataset):
             transform (callable, optional): Optional transform to be applied
                 on a sample.
         """
+        # cwd = os.getcwd()
+        # csv_JS = cwd + '/' + csv_JS
+        # csv_WS = cwd + '/' + csv_WS
         self.jointangles_frame = pd.read_csv(csv_JS)
         self.endeffposes_frame = pd.read_csv(csv_WS)
         self.root_dir = root_dir
