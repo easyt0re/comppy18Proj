@@ -1,5 +1,5 @@
 # comppy18Proj
-A Pre-processing Script for PyTorch ML Problem
+A Data Pre-processing Script for PyTorch ML Problem
 
 [![Coverage Status](https://coveralls.io/repos/github/easyt0re/comppy18Proj/badge.svg?branch=master)](https://coveralls.io/github/easyt0re/comppy18Proj?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/comppy18proj/badge/?version=latest)](https://comppy18proj.readthedocs.io/en/latest/?badge=latest)
@@ -29,6 +29,11 @@ For each sample point in time, the simulation gives us 18 numbers for input data
 These are saved in 2 separate \*.csv files.
 Each row corresponds to one sample, which would be read by `pandas` as one entry of a `dataframe`.
 This is essentially what happens with initialization.
+
+#### `__len__()`
+This function is to check the number of samples that has been read in.
+A `try catch` is implemented here to take care the case that there is a mismatch sample size for the input and output.
+This could be a practical function for the class.
 
 #### `__getitem__()`
 This function is supposed to return the item with the given index.
@@ -61,8 +66,8 @@ And if every line of the code has been run, it at least means the code has gone 
 
 #### `test_item()`
 This test is to assert if the value is correctly stored in the output from the input.
-I guess it could be more paramiterized and have better criteria to compare, for example, compare 2 "vectors" directly.
-However, this is more like a demo of what I could do istead of a real functional test that serves a meaningful purpose.
+I guess it could be more parameterized and have better criteria to compare, for example, compare 2 "vectors" directly.
+However, this is more like a demo of what I could do instead of a real functional test that serves a meaningful purpose.
 
 #### `test_tran_size()`
 This test is to assert if the shape of the output is correct for the next step.
@@ -73,7 +78,7 @@ Because the output has to follow the convention of the overall framework.
 To push the `coverall` percentage, this test is to assert if all the raw data is read into the dataset.
 This would be practical if the raw data reading process would throw away some of the entries automatically.
 Then this could check the number of samples that has been read in.
-However, if that is the case, then correspondency would be a more important thing to check.
+However, if that is the case, then correspondence would be a more important thing to check.
 
 ### Other Time-Consuming Things
 #### Testing
