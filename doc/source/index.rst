@@ -10,7 +10,7 @@ This is an attempt to have some documentations for the project.
 This is a student project for BB3110 Computational Python. 
 
 Generated Document for Pre-processing Script
-====================
+================================================================================
 
 .. toctree::
    :maxdepth: 7
@@ -19,7 +19,7 @@ Generated Document for Pre-processing Script
    modules
 
 Other Things Learned from Generating This
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The syntax is a bit different and new.
 

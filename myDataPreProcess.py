@@ -132,7 +132,12 @@ class ForKinDataset(Dataset):
             output_len = len(self.endeffposes_frame)
             assert input_len == output_len
         except AssertionError:
-            print(f"Length not equal: len(input) == {input_len} but len(output) == {output_len}")
+            # print(f"Length not equal: len(input) == {input_len} but len(output) == {output_len}")
+            # or
+            print("Length not equal: len(input) == {} but len(output) == {}".format(input_len, output_len))
+            # or
+            s = "Length not equal: len(input) == " + repr(input_len) + " but len(output) == " + repr(output_len)
+            print(s)
             # sys.exit(1)
             return 0
         return len(self.jointangles_frame)

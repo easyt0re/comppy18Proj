@@ -1,7 +1,7 @@
 """
 Test Script for `pytest` or Travis-CI
-====================================
-**Author**: `Yang Wang`_
+========================================================================
+**Author**: Yang Wang
 
 Coverall is a good tool to push for test developing.
 
