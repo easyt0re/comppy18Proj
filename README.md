@@ -145,3 +145,10 @@ And the immediate future work would be to code and finish the whole training pro
 The code is based PyTorch Official Beginner Tutorials and specifically [data loading and processing tutorial](https://pytorch.org/tutorials/beginner/data_loading_tutorial.html).
 
 Thanks to the course for the opportunity to implement this. 
+
+# Other Materials
+- a Related [Travis-CI](https://travis-ci.org/easyt0re/comppy18Proj) Test
+- a [Coverage](https://coveralls.io/github/easyt0re/comppy18Proj) Badge
+- a [Documentation](https://readthedocs.org/projects/comppy18proj) hosted on ReadtheDocs
+- a LaTeX Report based on the README
+- a [Presentation](https://easyt0re.github.io/comppy18Slides) hosted on Github Page
